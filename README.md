@@ -1,5 +1,5 @@
 # Learning Electron by creating my first application.
-![Electron Docs](https://www.electronjs.org/docs/latest/)
+[Electron Docs](https://www.electronjs.org/docs/latest/)
 ```bash
     npm run start
 ```
