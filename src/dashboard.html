@@ -1,0 +1,31 @@
+
+<link rel="stylesheet" href="dashboard-styles.css">
+
+<div class="weather hover">Weather</div>
+<div class="date-time hover"></div>
+<div class="music">
+  <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/50qsCSgX0kZEEJSd12ncrz?utm_source=generator" width="100%" height="152" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+</div>
+<div class="container-2">
+  <div class="quotes hover">
+    <p id="quote">Quote</p>
+    <p id="author"></p>
+  </div>
+  <div class="images hover" role="button" aria-label="Fetch image">
+    <img id="random-image" src="../public/random.jpg">
+  </div>
+</div>
+<div class="hourly-weather">
+  <canvas id="canvas" style="width:inherit; height:400px;"></canvas>
+</div>
+<div class="weekly-weather">
+  <p>Weekly Weather</p>
+  <input type="date" name="start-date" id="start-date">
+  <input type="date" name="end-date" id="end-date">
+  <button onclick="updateDates()" >Submit Dates</button>
+  <div id="weather-data"></div>
+  <!-- <canvas id="canvas2" style="width:inherit; height:400px;"></canvas> -->
+</div>
+<div class="top-tracks">
+  <p>Top Tracks</p>
+</div>

@@ -1,0 +1,163 @@
+
+
+body {
+    display: flex;
+    justify-content: center;
+}
+
+.main-container {
+    max-width: 800px;
+    height: fit-content;
+    justify-content: center;
+    flex-direction: row;
+    flex-flow: wrap;
+    gap: 8px;
+    color: black !important;
+}
+
+.weather {
+    width: 50%;
+    height: 200px;
+    border-radius: 4px;
+    background-color: rgb(150, 150, 173);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#weather-image {
+    width: 40px;
+}
+
+.hourly-weather {
+    max-width: 800px;
+    background-color: rgb(128, 218, 238);
+    width: 100%;
+    padding: 5px;
+    height: fit-content;
+    border-radius: 4px;
+
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+.weekly-weather {
+    max-width: 800px;
+    height: max-content;
+    background-color: rgb(246, 193, 217);
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+
+    display: block;
+    justify-content: center;
+    align-items: center;
+
+    overflow-x: hidden;
+}
+
+#weather-data {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    margin-top: 10px;
+    overflow-x: scroll;
+    scrollbar-width: none;
+}
+
+.weather-day {
+    min-width: 140px;
+    background-color: rgba(53, 96, 137, 0.44);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.weather-day:hover {
+    cursor: pointer;
+}
+
+canvas {
+    width: inherit;
+    max-height: 400px;
+}
+
+.date-time {
+    width: 370px;
+    height: 200px;
+    border-radius: 4px;
+    background-color: rgb(205, 148, 116);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.music {
+    width: 50%;
+    height: 200px;
+    border-radius: 4px;
+    background-color: #585454;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-tracks {
+    max-width: 800px;
+    height: 200px;
+    background-color: rgb(80, 48, 63);
+    color: white;
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+.container-2 {
+    width: 370px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.quotes {
+    height: 50%;
+    border-radius: 4px;
+    background-color: rgb(182, 241, 134);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+
+}
+
+.images {
+    height: 50%;
+    border-radius: 4px;
+    background-color: rgb(116, 205, 190);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+.hover {
+    transition: box-shadow ease-in-out 0.3s;
+}
+
+.hover:hover {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
+    border: black 1px solid;
+    cursor: pointer;
+}
