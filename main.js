@@ -4,9 +4,20 @@ const {app, BrowserWindow, ipcMain} = require("electron");
 const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
-const { tmpdir } = require('os');
 
 let win;
+
+// Create a subdirectory inside userData
+const appDataPath = path.join(app.getPath('userData'), 'ElectronDashboard'); // Saved on windows Roaming/electron-app/ElectronDashboard
+
+// Create a subdirectory for habit data and images
+const habitPath = path.join(appDataPath, 'habitData');
+const imagePath = path.join(appDataPath, 'images');
+
+// Create the directories if they don't exist (important!)
+fs.mkdirSync(appDataPath, { recursive: true });
+fs.mkdirSync(habitPath, { recursive: true });
+fs.mkdirSync(imagePath, { recursive: true });
 
 const createWindow = () => {
     win = new BrowserWindow({
@@ -101,15 +112,9 @@ ipcMain.handle('fetch-weekly-weather', async (event, lat, lon, startDate, endDat
 });
 
 // Handle API request for Image
-// Create a subdirectory within the temp directory for your app's images
-const tempPath = path.join(tmpdir(), 'ElectronDashboardImages');
-
-// Create the directory if it doesn't exist (important!)
-fs.mkdirSync(tempPath, { recursive: true });
-
 ipcMain.handle('fetch-image', async (event) => {
     const imageUrl = 'https://picsum.photos/400/200';
-    const savePath = path.join(tempPath, `random-${Date.now()}.jpg`); // Unique filename with timestamp
+    const savePath = path.join(imagePath, `random-${Date.now()}.jpg`); // Unique filename with timestamp
 
     try {
         const response = await axios({
@@ -131,17 +136,39 @@ ipcMain.handle('fetch-image', async (event) => {
     }
 });
 
-// Cleanup on startup (this is the key addition)
-function cleanupTempFiles() {
-    fs.readdirSync(tempPath).forEach(file => {
-        const filePath = path.join(tempPath, file);
-        fs.unlinkSync(filePath);
-    });
-}
-cleanupTempFiles();
-
 app.on('will-quit', () => {
-    fs.rmdirSync(tempPath, { recursive: true, force: true }); // Delete the directory and contents
+    fs.rmdirSync(imagePath, { recursive: true, force: true }); // Delete the image directory and contents
+});
+
+// Habits
+function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+}
+
+ipcMain.handle('load-habit-data', async (event, habit) => {
+    const filePath = path.join(habitPath, `daily${habit}.json`);
+    if (!fs.existsSync(filePath)) {
+        fs.writeFileSync(filePath, JSON.stringify({}));
+        return {};
+    }
+    return JSON.parse(fs.readFileSync(filePath));
+});
+
+ipcMain.handle('update-habit-data', async (event, habit, year, month, day) => {
+    const filePath = path.join(habitPath, `daily${habit}.json`);
+    const data = JSON.parse(fs.readFileSync(filePath));
+
+    if (!data[year]) {
+        data[year] = {};
+    }
+    if (!data[year][month]) {
+        data[year][month] = Array(getDaysInMonth(year, month)).fill(0);
+    }
+
+    data[year][month][day] = data[year][month][day] === 1 ? 0 : 1;
+    fs.writeFileSync(filePath, JSON.stringify(data));
+
+    return data[year][month];
 });
 
 // Enable live reload for all the files inside your project directory

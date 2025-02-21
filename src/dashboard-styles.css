@@ -107,20 +107,6 @@ canvas {
     align-items: center;
 }
 
-.top-tracks {
-    max-width: 800px;
-    height: 200px;
-    background-color: rgb(80, 48, 63);
-    color: white;
-    width: 100%;
-    padding: 5px;
-    border-radius: 4px;
-
-    display: block;
-    justify-content: center;
-    align-items: center;
-}
-
 .container-2 {
     width: 370px;
     height: 200px;
@@ -160,4 +146,52 @@ canvas {
     box-shadow: rgba(0, 0, 0, 0.35) 0px 2px 5px;
     border: black 1px solid;
     cursor: pointer;
+}
+
+
+.habits {
+    max-width: 800px;
+    height: 200px;
+    background-color: rgb(80, 48, 63);
+    color: white;
+    width: 100%;
+    padding: 5px;
+    border-radius: 4px;
+
+    display: block;
+    justify-content: center;
+    align-items: center;
+}
+
+.habit-top {
+    display: flex;
+    gap: 10px;
+}
+.habits .daysOfMonth {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.day {
+    display: flex;
+    background: #585454;
+    width: 32px;
+    height: 32px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 4px;
+
+    transition: all ease-in-out 0.2s;
+}
+
+.day:hover {
+    background: rgba(209, 167, 89, 0.733);
+    cursor: pointer;
+}
+
+.day.checked {
+    background-color: rgb(73, 212, 73);
 }

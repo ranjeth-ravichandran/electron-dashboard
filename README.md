@@ -85,3 +85,5 @@ This command will call the script ```electron-forge make``` under the package.js
 - [Quotes API](https://zenquotes.io/)
 - [Pictures API](https://picsum.photos/)
 - 
+
+# Can find saved files within %APPDATA% in Roaming on windows.

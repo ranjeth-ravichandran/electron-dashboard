@@ -39,7 +39,7 @@ document.getElementById('close').addEventListener('click', () => {
 });
 
 document.getElementById('minimise').addEventListener('click', () => {
-ipcRenderer.send('minimise-app');
+  ipcRenderer.send('minimise-app');
 });
 
 function updateDates() {
@@ -388,6 +388,77 @@ function initializeDashboard() {
         alert("Error fetching image. Please check the console for details.");
     }
   });
+
+  // Habit Tracker
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  const habitsSelect = document.getElementById('habits');
+  const daysOfMonthDiv = document.querySelector('.daysOfMonth');
+  const yearSelect = document.getElementById('year');
+  const monthSelect = document.getElementById('month');
+
+  function populateYearDropdown() {
+    const currentYear = new Date().getFullYear();
+    for (let i = currentYear - 5; i <= currentYear + 5; i++) {
+        const option = document.createElement('option');
+        option.value = i;
+        option.textContent = i;
+        yearSelect.appendChild(option);
+    }
+    yearSelect.value = currentYear;
+  }
+
+  function populateMonthDropdown() {
+      const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      months.forEach((month, index) => {
+          const option = document.createElement('option');
+          option.value = index;
+          option.textContent = month;
+          monthSelect.appendChild(option);
+      });
+      monthSelect.value = new Date().getMonth();
+  }
+
+  populateYearDropdown();
+  populateMonthDropdown();
+
+  async function loadHabitData(habit, year, month) {
+      const data = await ipcRenderer.invoke('load-habit-data', habit);
+      const monthData = data[year] && data[year][month] ? data[year][month] : Array(getDaysInMonth(year, parseInt(month))).fill(0);
+
+      daysOfMonthDiv.innerHTML = '';
+
+      monthData.forEach((value, index) => {
+          const dayDiv = document.createElement('div');
+          dayDiv.classList.add('day');
+          dayDiv.textContent = index + 1;
+          dayDiv.dataset.day = index;
+
+          if (value === 1) {
+              dayDiv.classList.add('checked');
+          }
+
+          dayDiv.addEventListener('click', async () => {
+              const updatedMonthData = await ipcRenderer.invoke('update-habit-data', habitsSelect.value, year, month, index);
+              loadHabitData(habitsSelect.value, year, month);
+          });
+
+          daysOfMonthDiv.appendChild(dayDiv);
+      });
+    }
+
+  function reloadHabitData() {
+    loadHabitData(habitsSelect.value, yearSelect.value, monthSelect.value);
+  }
+
+  habitsSelect.addEventListener('change', reloadHabitData);
+  yearSelect.addEventListener('change', reloadHabitData);
+  monthSelect.addEventListener('change', reloadHabitData);
+
+  reloadHabitData();
+
 }
 
 settingsPageLink.addEventListener('click', () => loadPage('settings'));
